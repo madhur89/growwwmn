@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Grow Money Capital Pvt. Ltd.</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/favicon.png" alt="..." />
+    <!--=============== REMIXICONS ===============-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+    <!--=============== BOOTSTRAP ===============-->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!--=============== ANIMATION CSS ===============-->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+    .wrapper {
+  background-image: linear-gradient(to bottom left, #3685c5, #3685c5);
+  padding: 1rem;
+  padding-bottom: 0;
+}
+ol {
+  --column-gap: 2rem;
+  --row-gap: 5rem;
+  --rocket-aspect: calc(134.13/196.24); 
+  --rocket-width: 3rem;
+  --rocket-height: calc(var(--rocket-width) / var(--rocket-aspect));
+  --flame-outer-color: #F16E39;
+  --flame-inner-color: #FED103;  
+  --number-circle-size: 4rem;
+  --number-circle-border-size: 0.2rem;
+  --number-line-height: 0.125rem;
+  --number-line-length: calc(var(--rocket-width) / 2 + var(--column-gap) / 2);
+  --number-line-dot-size: 0.25rem;
+  padding-bottom: 5rem;
+  list-style: none;
+  display: grid;
+  column-gap: var(--column-gap);
+  row-gap: var(--row-gap);
+  grid-template-columns: var(--rocket-width) 1fr;
+  counter-reset: liCount;
+  color: white;
+  overflow: hidden;
+  width: min(100rem, 100%);
+  margin-inline: auto;
+}
+@media (min-width: 30rem){
+  wrapper { padding: 2rem }
+  ol{ 
+    --column-gap: 2rem;
+    --rocket-width: 5rem;
+    grid-template-columns: 1fr var(--rocket-width) 1fr;
+  }
+  ol .rocket{ grid-column: 2 !important }
+  ol > li { 
+    grid-column: 1/-1 !important; 
+    width: calc(50% - var(--rocket-width) / 2 - var(--column-gap)) 
+  }
+  ol > li:nth-of-type(odd) { justify-self: end}
+  ol > li:nth-of-type(even) { text-align: right}
+  ol > li:nth-of-type(even):after{
+    left: unset;
+    right: calc(var(--circle-pos-x) * -1);
+    --dot_pos_multiplier: -1
+  }
+  ol > li:nth-of-type(even)::before{
+    right: unset;
+    left: calc(100% + var(--column-gap) / 2);
+    
+  }
+  
+}
+ol::after{
+  content: "";
+  grid-row: 1;
+  grid-column: 1/-1;
+}
+ol .rocket{
+  grid-row: 1;
+  grid-column: 1;
+  position: relative;
+  isolation: isolate;
+}
+ol .rocket svg { width: var(--rocket-width); height: var(--rocket-height)}
+ol .rocket::after{
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 200vh;
+  top: calc(100% - var(--rocket-height) * .2);
+  left: 25%;
+  z-index: -1;
+  background-image:
+    radial-gradient(ellipse at center top, var(--flame-inner-color) 20%,transparent 50%),
+    linear-gradient(to right, 
+      transparent 20%, 
+      var(--flame-outer-color) 40% , 
+      var(--flame-inner-color) 50%,
+      var(--flame-outer-color) 60%, 
+      transparent 80%
+    ),
+    radial-gradient(ellipse at center top, var(--flame-outer-color) 35%,transparent 65%);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 
+    100% calc(var(--rocket-height) * 0.4), 
+    100%, 
+    100% calc(var(--rocket-height) * 0.4);
+}
+ol > li {
+  counter-increment: liCount;
+  grid-column: -2;
+  position: relative;
+  font-size: 18px;
+}
+ol > li::after{
+  content: counter(liCount, decimal-leading-zero);
+  width: var(--number-circle-size);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  position: absolute;
+  --circle-pos-x: calc(var(--number-circle-size) / 2 + var(--column-gap) + var(--rocket-width) / 2);
+  left: calc(var(--circle-pos-x) * -1);
+  top: calc(50% - var(--number-circle-size) / 2);
+  background-color: var(--accent-color);
+  font-weight: 600;
+  --dot-size: calc(var(--number-circle-size) / -2 + var(--number-line-dot-size));
+  box-shadow:
+    inset 0 0 0 var(--number-circle-border-size) currentcolor,
+    inset -0.125rem 0.125rem 0.25rem var(--number-circle-border-size) rgb(0 0 0 / .25),
+    -0.125rem 0.125rem 0.25rem rgb(0 0 0 / .5),
+    calc(var(--number-line-length) * var(--dot_pos_multiplier, 1)) 0 0 var(--dot-size) currentcolor;
+}
+
+ol > li::before{
+  position: absolute;
+  content: "";
+  width: var(--number-line-length);
+  height: var(--number-line-height);
+  background-color: currentcolor;
+  right: calc(100% + var(--column-gap) / 2);
+  top: calc(50% - var(--number-line-height) / 2);
+}
+</style>
+</head>
+
+<body>
+    <!--=============== HEADER START ===============-->
+    <header class="header">
+        <nav class="nav boxed">
+            <div class="nav__data">
+                <a href="index.html" class="nav__logo">
+                    <!-- <i class="ri-planet-line"></i> Company -->
+                    <img src="images/grow-logo.png" alt="Grow Money">
+                </a>
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="ri-menu-line nav__burger"></i>
+                    <i class="ri-close-line nav__close"></i>
+                </div>
+            </div>
+
+            <!--=============== NAV MENU ===============-->
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li><a href="index.html" class="nav__link">HOME</a></li>
+                    <!--=============== DROPDOWN 1 ===============-->
+                    <li class="dropdown__item">
+                        <div class="nav__link">
+                            COMPANY <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                        </div>
+                        <ul class="dropdown__menu">
+                            <li>
+                                <a href="about-us.html" class="dropdown__link">
+                                    <!-- <i class="ri-pie-chart-line"></i> -->
+                                    ABOUT US
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="gallery.html" class="dropdown__link">
+                                    GALLERY
+                                </a>
+                            </li>
+                            <li>
+                                <a href="our-team.html" class="dropdown__link">
+                                    OUR TEAM
+                                </a>
+                            </li>
+                            <li>
+                                <a href="our-policy.html" class="dropdown__link">
+                                    OUR POLICY
+                                </a>
+                            </li>
+
+                    
+                        </ul>
+                    </li>
+                    <!--=============== DROPDOWN 2 ===============-->
+
+                    <li class="dropdown__item">
+                        <div class="nav__link">
+                            LOAN PRODUCTS <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                        </div>
+
+                        <ul class="dropdown__menu">
+                            <li>
+                                <a href="micro-enterprise-loan.html" class="dropdown__link">
+                                    <!-- <i class="ri-pie-chart-line"></i> -->
+                                    MICRO ENTERPRISE LOAN
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="loan-against-property.html" class="dropdown__link">
+                                    LOAN AGAINST PROPERTY
+                                </a>
+                            </li>
+                            <li>
+                                <a href="vehicle-financing.html" class="dropdown__link">
+                                    VEHICLE FINANCING
+                                </a>
+                            </li>
+                            <li>
+                                <a href="financing-of-electric-two-wheelers.html" class="dropdown__link">
+                                    FINANCING OF ELECTRIC TWO WHEELERS
+                                </a>
+                            </li>
+                            <li>
+                                <a href="supply-chain-finance.html" class="dropdown__link">
+                                    SUPPLY CHAIN FINANCE
+                                </a>
+                            </li>
+                            <li>
+                                <a href="corporate-lending.html" class="dropdown__link">
+                                    CORPORATE LENDING
+                                </a>
+                            </li>
+                            <li>
+                                <a href="partnership-model.html" class="dropdown__link">
+                                    PARTNERSHIP MODEL
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="financials.html" class="nav__link">FINANCIALS</a></li>
+                    <li><a href="contacts.html" class="nav__link">CONTACT US</a></li>
+                    <li><a href="apply-now.html" class="btn btn-primary header-btn">APPLY NOW</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!--=============== HEADER ENDS ===============-->
+
+    <!--=============== HERO SECTION START ===============-->
+    <div class="hero-section-template hero-section-partnership text-center">
+        <h1 class="hero-title ">PARTNERSHIP MODEL</h1>
+    </div>
+    <!--=============== HERO SECTION ENDS ===============-->
+
+    <!--=============== MAIN CONTENT START ===============-->
+    <div class="container mt-5 mb-5 p-1">
+        <h1 class="my-5 title">Partnership Model</h1>
+        <p class="my-5">At Grow Money, we seamlessly integrate the best of both worlds – the robust capabilities of
+            a Non-Banking Financial Company (NBFC) and the micro-level financial inclusion prowess of a Microfinance
+            Institution (MFI). Our unwavering belief is anchored in the synergy where MFIs provide financial
+            inclusion at the grassroots, complemented and propelled by the infrastructural strength of NBFCs,
+            fostering job creation and wealth generation for the nation.
+
+        </p>
+        <p class="my-5 ">With over 23 years of unique experience, Grow Money operates at the intersection of NBFC and
+            MFI.</p>
+        <h3 class="fw-bold">Why Grow Money ?</h3>
+        <p>Navigating and thriving in the diverse landscapes of both markets. Recognized by the Reserve Bank
+            of India (RBI) for playing a significant role in the development of sectors like Transport, NBFCs, in
+            conjunction with MFIs, form the backbone of infrastructural growth.
+        </p>
+        <p class="my-5">Grow Money stands as one of the select entities that have strategically partnered with both
+            NBFCs and MFIs, leveraging our expertise to drive financial inclusion and economic development.
+        </p>
+        <p class="h3 mt-4"><strong>Documents Required:</strong> </p>
+        <ul style="list-style: circle;" class="m-4">
+            <li>Credit policy and onboarding policy</li>
+            <li>Current data as per NBFC Overview Sheet</li>
+            <li>Latest Financial Statements</li>
+            <li>KYC of directors</li>
+            <li>State-wise breakup of business</li>
+        </ul>
+
+        <p>List of Partners : <span onclick="toggleGurmeetSinghPopup()" style="color: blue;cursor: pointer;">Click
+                Here</span></p>
+        <!--=============== Popup code ===============-->
+        <div class="team-popup" id="team-popup-gurmeet-singh">
+            <div class="overlay" onclick="toggleGurmeetSinghPopup()"></div>
+            <div class="team-content container">
+                <div class="close-btn" onclick="toggleGurmeetSinghPopup()">&times;</div>
+                <div class="row g-5">
+                    <div class="col-sm-12 col-md-6 col-lg-4 text-start">
+                        <p class="h3 "><strong>Details of LSPs & DLA (True Credits) </strong></p>
+                        <p class="m-2">Website link : </strong><a href="https://www.truecredits.in/"
+                                target="_blank">www.truecredits.in</a>
+                        </p>
+                        <p class="m-2">GRO officer/policy : <a
+                                href="https://www.truecredits.in/_files/ugd/897b8e_cd776f2b21ae4e38a1e03bb629d71c2f.pdf"
+                                target="_blank">GRO officer/policy Link</a></p>
+                        <p class="m-2">Privacy Policy : <a href="https://www.truecredits.in/privacy-policy"
+                                target="_blank">Privacy
+                                Policy Link</a></p>
+                        <p class="m-2">LSP/DLA link : <a href="https://www.truecredits.in/lsps-dla"
+                                target="_blank">LSP/DLA
+                                link</a></p>
+                        <p class="h3 mt-4"><strong>Details of DLA (True Balance):</strong> </p>
+                        <p class="m-2">Website link : </strong><a href="https://www.truebalance.io/"
+                                target="_blank">www.truebalance.io</a>
+                        </p>
+                        <p class="m-2">GRO officer/policy : <a
+                                href="https://www.truebalance.io/_files/ugd/897b8e_5f0d057c07f54ca1b3743c6af9ff7e60.pdf"
+                                target="_blank">GRO officer/policy Link</a></p>
+                        <p class="m-2">Privacy Policy : <a href="https://www.truebalance.io/privacy-policy"
+                                target="_blank">Privacy
+                                Policy Link</a></p>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-8 text-start">
+
+                        <p class="h3"><strong>Services Offered by True Credits - Lending Service Provider
+                                (LSP):</strong></p>
+                        <ul style="list-style:number;" class="m-4">
+                            <li class="m-2">Advertising and Marketing</li>
+                            <li class="m-2">Assistance in Development, Disbursement & Management of Loan Products</li>
+                            <li class="m-2">Loan Origination & Customer Acquisition</li>
+                            <li class="m-2">Initial background checking, pre-assessment & fraud assessment</li>
+                            <li class="m-2">Assistance in Know Your Customer process</li>
+                            <li class="m-2">Collection and Recoveries</li>
+                            <li class="m-2">Customer Support</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<div class="wrapper " style="padding: 40px 0 0;">
+    <ol>
+      <div class="rocket" data-aos-delay="100" data-aos="fade-up"><svg><use xlink:href="#rocket_svg"  /></svg></div>
+      <li style="--accent-color: #FCB410" data-aos-delay="200" data-aos="fade-left">
+        <div >List of potential clients by sector</div>
+        <!-- <div class="content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed</div> -->
+      </li>
+      <li style="--accent-color: #D6489A" data-aos-delay="300" data-aos="fade-right">
+        <div >Preliminary data and evaluation</div>
+      </li>
+      <li style="--accent-color: #ACD038" data-aos-delay="400" data-aos="fade-left">
+        <div >Detailed due diligence of accounts and working</div>
+      </li>
+      <li style="--accent-color: #10BBC5" data-aos-delay="500" data-aos="fade-right">
+        <div >Detailed Reports including field visits</div>
+      </li>
+      <li style="--accent-color: #7251A2" data-aos-delay="600" data-aos="fade-left">
+        <div >Detailed Reports including field visits
+            Post approval, we begin smooth functioning, growing collaboratively
+            </div>
+      </li>
+    </ol>
+  </div>
+  
+  <!-- rocket svg -->
+  <svg style="display: none" data-aos-delay="400" data-aos="fade-left">
+    <symbol id="rocket_svg" viewBox="0 0 134.13 196.24">
+        <path fill="#ebebf0" d="M27.06,108.49S7,119.92,3.06,127.24c-5.62,10.5-4.12,48.75,9.75,69,0,0,7.13-32.63,23.63-45.75Z"/>
+        <path fill="#ebebf0" d="M107.06,108.49s20.08,11.43,24,18.75c5.63,10.5,4.13,48.75-9.75,69,0,0-7.12-32.63-23.62-45.75Z"/>
+        <path fill="#f37664" d="M67.07,0V176.24H38.3a136.69,136.69,0,0,1-6.58-12.37l-.18-.38c-19.42-41.52-15.83-86.71-.83-120,.18-.42.37-.84.56-1.25C40,23.51,52.26,8.65,66.08.56,66.4.37,66.73.18,67.07,0Z"/>
+        <path fill="#f4a391" d="M67.07,0V43.49H30.71c.18-.42.37-.84.56-1.25C40,23.51,52.26,8.65,66.08.56,66.4.37,66.73.18,67.07,0Z"/>
+        <path fill="#1d7dae" d="M67.07,163.49v12.75H38.3a136.69,136.69,0,0,1-6.58-12.37l-.18-.38Z"/>
+        <path fill="#f05b57" d="M103.42,43.49H67.07V0l1,.56c13.83,8.09,26.14,23,34.81,41.68C103.05,42.65,103.24,43.07,103.42,43.49Z"/>
+        <path fill="#e94733" d="M115.94,102.87a142.86,142.86,0,0,1-13.35,60.62H67.07v-120h36.35A145.76,145.76,0,0,1,115.94,102.87Z"/>
+        <path fill="#104c78" d="M102.59,163.49l-.18.38a136.69,136.69,0,0,1-6.58,12.37H67.07V163.49Z"/>
+        <circle fill="#e2554c" cx="67.06" cy="84.36" r="22.99"/>
+        <circle fill="#64cdf6" cx="67.06" cy="84.36" r="19.03"/>
+    </symbol>
+  </svg>
+
+    <!--=============== MAIN CONTENT ENDS ===============-->
+
+    <!--=============== FOOTER SECTION START ===============-->
+    <footer class="footer ">
+        <div class="footer-main ">
+            <div class="container">
+                <div class="row items justify-content-between gap-3">
+                    <div class="col-12 item">
+                        <h4 class="footer-item-heading ">Disclaimer</h4>
+                        <p class="text-justify text-white mb-4 color-black">All the monetary transactions are
+                            subject to the jurisdiction of the Government of India and the Government of NCT of
+                            Delhi. The company is fully abided by all the rules and regulations of the Government
+                            and RBI. Any irregularity is barely a co-incidence and the company doesn’t hold any
+                            responsibility. However, it is your duty to share such sort of misconduct or
+                            irregularity with us via our official email Id or via our phone number.</p>
+
+                    </div>
+
+                    <div class="col-12 item">
+                        <h4 class="footer-item-heading">Contact Information
+                        </h4>
+                        <ul class="footer-contacts text-center">
+                            <li>
+                                <i class="fa-solid fa-map-location-dot text-primary"></i>
+                                <div class="footer-contact-info text-light color-black">401,New Delhi House, 27
+                                    Brarakhmba Road, Connaught Place, New Delhi-110001</div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-phone text-primary"></i>
+                                <div class="footer-contact-info">
+                                    <a class="text-light color-black" href="tel: 011-43580437">011-43580437</a>, <a
+                                        class=" color-black text-light" href="tel: 011-40045955">011-40045955</a>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-envelope text-primary"></i>
+                                <div class="footer-contact-info">
+                                    <a class="text-light color-black"
+                                        href="mailto:support@growmoneycapital.com">support@growmoneycapital.com</a>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div class="col-12 item d-flex gap-5 quick-links ">
+                        <h4 class="footer-item-heading">Quick Links</h4>
+                        <ul class="quick-link d-flex justify-content-start flex-wrap">
+                            <li><a href="https://sachet.rbi.org.in" target="_blank">Sachet
+                                    Portal</a></li> |
+                            <li><a href="career.html">Career</a></li> |
+                            <li><a href="cancel-nach.html">Cancel Nach</a></li> |
+                            <li><a href="contacts.html">Contact</a></li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-md-6 col-xs-12  ">
+                        <p class="copyright text-light color-black">&copy; 2024 Grow Money Capital Pvt. Ltd.
+                            All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6  col-xs-12  text-lg-end text-center  ">
+                        Design & Developed by <a href="https://brandent.in/" target="_blank">Brandent</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--=============== FOOTER SECTION END ===============-->
+
+
+    <!--=============== SCROLL TOP BUTTON ===============-->
+    <a href="javascript:void(0)" class="scroll-top smoth_scroll">
+        <i class="fa fa-long-arrow-up" aria-hidden="true"></i>
+    </a>
+    <!--=============== SCROLL TOP BUTTON ===============-->
+    <!--=============== MAIN JS ===============-->
+    <script src="js/header.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/slick.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/custom.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+
+</html>
