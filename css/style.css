@@ -43,6 +43,13 @@ html {
   }
 }
 
+@media only screen and (max-width: 768px) {
+  .secondRw_service{
+    margin-top: 1% !important;
+  }
+}
+
+
 /*=============== BASE ===============*/
 * {
   -webkit-box-sizing: border-box;
@@ -68,6 +75,8 @@ ul {
 #financialChart {
   width: 70%; /* Adjust width as needed */
   margin: auto; /* Center the chart */
+
+
 }
 
 

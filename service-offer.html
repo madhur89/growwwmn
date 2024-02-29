@@ -19,7 +19,138 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!--=============== ANIMATION CSS ===============-->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    .wrapper {
+  background-image: linear-gradient(to bottom left, #3685c5, #3685c5);
+  padding: 1rem;
+  padding-bottom: 0;
+}
+ol {
+  --column-gap: 2rem;
+  --row-gap: 5rem;
+  --rocket-aspect: calc(134.13/196.24); 
+  --rocket-width: 3rem;
+  --rocket-height: calc(var(--rocket-width) / var(--rocket-aspect));
+  --flame-outer-color: #F16E39;
+  --flame-inner-color: #FED103;  
+  --number-circle-size: 4rem;
+  --number-circle-border-size: 0.2rem;
+  --number-line-height: 0.125rem;
+  --number-line-length: calc(var(--rocket-width) / 2 + var(--column-gap) / 2);
+  --number-line-dot-size: 0.25rem;
+  padding-bottom: 5rem;
+  list-style: none;
+  display: grid;
+  column-gap: var(--column-gap);
+  row-gap: var(--row-gap);
+  grid-template-columns: var(--rocket-width) 1fr;
+  counter-reset: liCount;
+  color: white;
+  overflow: hidden;
+  width: min(100rem, 100%);
+  margin-inline: auto;
+}
+@media (min-width: 30rem){
+  wrapper { padding: 2rem }
+  ol{ 
+    --column-gap: 2rem;
+    --rocket-width: 5rem;
+    grid-template-columns: 1fr var(--rocket-width) 1fr;
+  }
+  ol .rocket{ grid-column: 2 !important }
+  ol > li { 
+    grid-column: 1/-1 !important; 
+    width: calc(50% - var(--rocket-width) / 2 - var(--column-gap)) 
+  }
+  ol > li:nth-of-type(odd) { justify-self: end}
+  ol > li:nth-of-type(even) { text-align: right}
+  ol > li:nth-of-type(even):after{
+    left: unset;
+    right: calc(var(--circle-pos-x) * -1);
+    --dot_pos_multiplier: -1
+  }
+  ol > li:nth-of-type(even)::before{
+    right: unset;
+    left: calc(100% + var(--column-gap) / 2);
+    
+  }
+  
+}
+ol::after{
+  content: "";
+  grid-row: 1;
+  grid-column: 1/-1;
+}
+ol .rocket{
+  grid-row: 1;
+  grid-column: 1;
+  position: relative;
+  isolation: isolate;
+}
+ol .rocket svg { width: var(--rocket-width); height: var(--rocket-height)}
+ol .rocket::after{
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 200vh;
+  top: calc(100% - var(--rocket-height) * .2);
+  left: 25%;
+  z-index: -1;
+  background-image:
+    radial-gradient(ellipse at center top, var(--flame-inner-color) 20%,transparent 50%),
+    linear-gradient(to right, 
+      transparent 20%, 
+      var(--flame-outer-color) 40% , 
+      var(--flame-inner-color) 50%,
+      var(--flame-outer-color) 60%, 
+      transparent 80%
+    ),
+    radial-gradient(ellipse at center top, var(--flame-outer-color) 35%,transparent 65%);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 
+    100% calc(var(--rocket-height) * 0.4), 
+    100%, 
+    100% calc(var(--rocket-height) * 0.4);
+}
+ol > li {
+  counter-increment: liCount;
+  grid-column: -2;
+  position: relative;
+  font-size: 18px;
+}
+ol > li::after{
+  content: counter(liCount, decimal-leading-zero);
+  width: var(--number-circle-size);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  position: absolute;
+  --circle-pos-x: calc(var(--number-circle-size) / 2 + var(--column-gap) + var(--rocket-width) / 2);
+  left: calc(var(--circle-pos-x) * -1);
+  top: calc(50% - var(--number-circle-size) / 2);
+  background-color: var(--accent-color);
+  font-weight: 600;
+  --dot-size: calc(var(--number-circle-size) / -2 + var(--number-line-dot-size));
+  box-shadow:
+    inset 0 0 0 var(--number-circle-border-size) currentcolor,
+    inset -0.125rem 0.125rem 0.25rem var(--number-circle-border-size) rgb(0 0 0 / .25),
+    -0.125rem 0.125rem 0.25rem rgb(0 0 0 / .5),
+    calc(var(--number-line-length) * var(--dot_pos_multiplier, 1)) 0 0 var(--dot-size) currentcolor;
+}
+
+ol > li::before{
+  position: absolute;
+  content: "";
+  width: var(--number-line-length);
+  height: var(--number-line-height);
+  background-color: currentcolor;
+  right: calc(100% + var(--column-gap) / 2);
+  top: calc(50% - var(--number-line-height) / 2);
+}
+</style>
 </head>
 
 <body>
@@ -69,6 +200,8 @@
                                     OUR POLICY
                                 </a>
                             </li>
+
+                    
                         </ul>
                     </li>
                     <!--=============== DROPDOWN 2 ===============-->
@@ -113,7 +246,7 @@
                             </li>
                             <li>
                                 <a href="partnership-model.html" class="dropdown__link">
-                                    PARTNERSHIP MODEL
+                                  Services
                                 </a>
                             </li>
                         </ul>
@@ -128,105 +261,132 @@
     <!--=============== HEADER ENDS ===============-->
 
     <!--=============== HERO SECTION START ===============-->
-    <div class="hero-section-template hero-section-financials text-center mb-5 ">
-        <h1 class="hero-title ">FINANCIALS</h1>
+    <div class="hero-section-template hero-section-partnership text-center">
+        <h1 class="hero-title ">SERVICES</h1>
     </div>
     <!--=============== HERO SECTION ENDS ===============-->
-    <!--=============== MAIN CONTENT START ===============-->
-    <section class="" data-aos="fade-up">
-        <div class="container">
-            <div class="row justify-content-md-between mb-4 px-5">
-                <div class="col-md-12 col-sm-12">
-                    <div class="text_box">
-                        <h2 class="mb-4 title">Financials Results</h2>
-                        <p>At Grow Money Capital, we view our investors and counterparties as
-                            critical stakeholders in the firm and believe in forging long lasting and transparent
-                            relationships with each one of them. We are committed to maintaining effective
-                            communication, sharing information and adopting best practices which further improve our
-                            relationships with each of our important associates. We have long recognized the role
-                            Investor Relations plays in the success of the company.</p>
-                        <p>This section provides analysts with relevant information, enabling a
-                            transparent assessment of the company&#39;s values. Stay up to date on the events and
-                            presentations that provide insight on our strategy and how it is being translated into
-                            financials results. You can access information, quarterly financials results,
-                            annual report and other resources to know more about the Grow Money capital Pvt. Ltd.</p>
-                    </div>
-                </div>
+
+
+
+            <div class="lsp_sevices">
+
+                <!-- Services -->
+<section class="bsb-service-6 py-5 py-xl-8">
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+          
+          <div class="text-center text_box">
+            <h2 class="title text-dark fw-bold">Services Offered by True Credits - Lending Service Provider (LSP)</h2>
+            
+        </div>
+          <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+        </div>
+      </div>
+    </div>
+  
+    <div class="container overflow-hidden">
+      <div class="row gy-4 gy-md-0 gx-xxl-5">
+        <div class="col-12 col-md-4">
+          <div class="card bg-transparent border-primary rounded-0">
+            <div class="card-body">
+              <h3 class="h2 mb-4">Advertising and Marketing</h3>
+              <p class="mb-5 text-secondary">Elevate your brand with our advertising and marketing services. From strategic campaigns to targeted messaging, we'll help you reach your audience and drive results</p>      
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="card bg-transparent border-primary rounded-0">
+            <div class="card-body">
+              
+              <h3 class="h2 mb-4">Loan product development, disbursement, and management assistance.</h3>
+              <p class="mb-3g text-secondary">Streamline your loan products from development to management with our expert assistance.</p>
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="card bg-transparent border-primary rounded-0">
+            <div class="card-body">
+              
+              <h3 class="h2 mb-4">Loan Origination & Customer Acquisition</h3>
+              <p class="mb-3 text-secondary">Accelerate loan origination and customer acquisition seamlessly with our specialized services. From streamlined processes to targeted outreach.</p>
+              
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- second row -->
+
+      <div class="row gy-4 gy-md-0 gx-xxl-5 mt-lg-4 secondRw_service">
+        <div class="col-12 col-md-4">
+          <div class="card bg-transparent border-primary rounded-0">
+            <div class="card-body">
+              <h3 class="h2 mb-4">Initial background checking, pre-assessment & fraud assessment</h3>
+              <p class="mb-4 text-secondary">Safeguard your operations with our thorough services, 
+                including initial background checks, pre-assessments, and fraud assessments, ensuring trust and security</p>      
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="card bg-transparent border-primary rounded-0">
+            <div class="card-body">
+              
+              <h3 class="h2 mb-4">Assistance in Know Your Customer process</h3>
+              <p class=" text-secondary">Simplify compliance with our Know Your Customer (KYC) assistance.
+                 Streamline verification processes and ensure regulatory compliance effortlessly.</p>
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="card bg-transparent border-primary rounded-0">
+            <div class="card-body">
+              
+              <h3 class="h2 mb-4">Collection and Recoveries</h3>
+              <p class="mb-2 text-secondary">EMaximize recovery efficiency with our 
+                collection services. We employ strategic approaches to recover outstanding debts while maintaining positive customer relationships.</p>
+              
+            </div>
+            
+          </div>
+
+          
+
+          
+          </div>
+          <div class="col-12 col-md-4 mt-lg-4 mt-sm-2">
+            <div class="card bg-transparent border-primary rounded-0">
+              <div class="card-body">
+                
+                <h3 class="h2 mb-4">Customer Support</h3>
+                <p class="mb-5 text-secondary">Deliver exceptional customer support with our dedicated team. We provide timely assistance,
+                   resolving queries and concerns to ensure customer satisfaction and loyalty.</p>
+                
+              </div>
+              
             </div>
         </div>
-    
-
-        <h1 class="text-center  mt-5hgor  fw-bold" style="font-size: 4rem; color: #15295E;">
-            Fiancial Highlights     
-        </h1>
-        <p class="text-center mb-5 fw-light">Financial information(Rs in Crores)</p>      
-
-
-<div class="line-graph">
-
-    <canvas id="financialChart"></canvas>
-
+      </div>
+    </div>
 
     
-</div>
+  </section>
+
+    
+
+            
+
+
+            </div>
+        </div>
+    </div>
 
 
 
-    <!-- charjs Line Plot -->
-    <script>
-        const years = [2019, 2020, 2021, 2023, 2024];
-        const PBT = [7.41, 7.61, 17.85, 32.42, 27.95];
-        const AUM = [177.11, 221.62, 320.95, 516.41, 552.79];
 
-        const ctx = document.getElementById('financialChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: years,
-                datasets: [{
-                    label: 'PBT',
-                    data: PBT,
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 3
-                }, {
-                    label: 'AUM',
-                    data: AUM,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 3
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                            fontColor: '#333' // Y-axis label color
-                        },
-                        gridLines: {
-                            color: 'white'
-                        }
-                    }],
-                    xAxes: [{
-                        ticks: {
-                            fontColor: '#333' // X-axis label color
-                        },
-                        gridLines: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        }
-                    }]
-                },
-                legend: {
-                    labels: {
-                        fontColor: '#333' // Legend label color
-                    }
-                }
-            }
-        });
-    </script>
+    <!--=============== MAIN CONTENT START ===============-->
 
 
 
@@ -235,14 +395,16 @@
 
 
 
- 
+  
+
+    <!--=============== MAIN CONTENT ENDS ===============-->
 
     <!--=============== FOOTER SECTION START ===============-->
     <footer class="footer ">
         <div class="footer-main ">
             <div class="container">
-                <div class="row items justify-content-between gap-3 px-4">
-                    <div class="col-12 item ">
+                <div class="row items justify-content-between gap-3">
+                    <div class="col-12 item">
                         <h4 class="footer-item-heading ">Disclaimer</h4>
                         <p class="text-justify text-white mb-4 color-black">All the monetary transactions are
                             subject to the jurisdiction of the Government of India and the Government of NCT of
@@ -309,12 +471,12 @@
     </footer>
     <!--=============== FOOTER SECTION END ===============-->
 
+
     <!--=============== SCROLL TOP BUTTON ===============-->
     <a href="javascript:void(0)" class="scroll-top smoth_scroll">
         <i class="fa fa-long-arrow-up" aria-hidden="true"></i>
     </a>
     <!--=============== SCROLL TOP BUTTON ===============-->
-
     <!--=============== MAIN JS ===============-->
     <script src="js/header.js"></script>
     <script src="js/jquery.js"></script>

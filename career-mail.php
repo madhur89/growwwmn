@@ -20,7 +20,7 @@ if (isset($_POST['make_payment'])) {
                 $message .='</tbody></table>';
                 $message .= '<br>Thanks & Regards<br>Grow Money Capital';
                 $subject = 'Career Enquiry';
-                $to = 'akashsaini5274@gmail.com';
+                $to = 'support@growmoneycapital.com';
             } else {
                 echo "Invalid file type. Allowed types: jpg, jpeg, png, pdf, doc, docx, odt, ods";
             }
